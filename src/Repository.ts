@@ -5,6 +5,10 @@ import { join } from "path";
 export class Repository {
     private _baseDir!: string;
 
+    private readonly email = "aniket_chowdhury@hotmail.com";
+
+    private readonly name = "Aniket Biprojit Chowdhury";
+
     public init() {
         this._baseDir = join(__dirname, "..");
         this._createDirectory("refs/heads")
@@ -58,7 +62,7 @@ export class Repository {
             ignorecase: true,
             precomposeunicode: true
         }
-        const user = { email: "aniket_chowdhury@hotmail.com", name: "Aniket Biprojit Chowdhury" }
+        const user = { email: this.email, name: this.name }
         const iniString = iniStringify({ core, user }, { whitespace: true }).split("\n").map(elem => {
             if (elem.startsWith("[")) return elem
             else elem = "    " + elem
