@@ -17,7 +17,7 @@ try {
 			break
 
 		case 'test':
-			createBlob(repo, 'data')
+			createBlob(repo, 'src', 'Repository.ts')
 			break
 		default:
 			throw new CLIException('Not a command', 'index')
