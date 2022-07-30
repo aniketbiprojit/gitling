@@ -6,7 +6,9 @@ export const hashObject = ({ data, objectType }: { data: string; objectType: Obj
 	if (!data) {
 		throw new CLIException('Nothing to hash', __filename)
 	}
-	const dataToHash = `${objectType} ${data.length + 1}\0${data}\n`
+	console.log(data)
+	const dataToHash = `${objectType} ${data.length + 1}\0${data.toString()}\n`
 	const hash = crypto.createHash('sha1').update(dataToHash).digest('hex')
+	console.log(hash)
 	return hash
 }

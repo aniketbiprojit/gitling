@@ -2,6 +2,7 @@
 
 import { Repository } from './Repository'
 import { CLIException } from './utils/CLIException'
+import { createBlob } from './utils/createBlob'
 import { hashObject } from './utils/hashObject'
 
 const repo = new Repository()
@@ -15,6 +16,9 @@ try {
 			console.log(hashObject({ objectType: 'blob', data: args?.[1] }))
 			break
 
+		case 'test':
+			createBlob(repo, 'data')
+			break
 		default:
 			throw new CLIException('Not a command', 'index')
 	}
