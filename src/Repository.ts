@@ -17,6 +17,7 @@ export class Repository {
 		this._createDirectory('refs/heads')
 		this._createDirectory('objects')
 		this._createFile('', 'HEAD')
+		this._createFile(`Unnamed repository; edit this file 'description' to name the repository.`, 'description')
 		this._createFile(this._default_config(), 'config')
 		return this
 	}
@@ -31,6 +32,10 @@ export class Repository {
 
 	public getFile(...filepath: string[]): string {
 		return join(this._baseDir, ...filepath)
+	}
+
+	public getGitFile(...filepath: string[]): string {
+		return join(this.gitLingDir, ...filepath)
 	}
 
 	private _createDirectory(...args: string[]) {

@@ -1,6 +1,6 @@
 export type TreeExtension = ReturnType<typeof parseTreeExtension>
 
-export const getExtensionData = (extension: number[]) => {
+export const getExtensionData = (log = false, extension: number[]) => {
 	const signature = String.fromCharCode(...extension.slice(0, 4))
 	const return_data: { trees: TreeExtension[] } = { trees: [] }
 
@@ -13,10 +13,12 @@ export const getExtensionData = (extension: number[]) => {
 			tree_length += tree.totalLength
 		}
 		return_data['trees'] = trees
-		console.log(signature)
-		trees.map((elem) => {
-			console.log(`${elem.sha} ${elem.pathName}`)
-		})
+		if (log) {
+			console.log(signature)
+			trees.map((elem) => {
+				console.log(`${elem.sha} ${elem.pathName}`)
+			})
+		}
 	}
 	return return_data
 }
