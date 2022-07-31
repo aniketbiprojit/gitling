@@ -1,15 +1,11 @@
-import { getNumberFromBuffer } from './getNumberFromBuffer'
-
 export type TreeExtension = ReturnType<typeof parseTreeExtension>
 
 export const getExtensionData = (extension: number[]) => {
 	const signature = String.fromCharCode(...extension.slice(0, 4))
-	const length = getNumberFromBuffer(extension.slice(4, 8))
 
 	const return_data: { trees: TreeExtension[] } = { trees: [] }
 
 	if (signature === 'TREE') {
-		console.log(`${signature} ${length}`)
 		extension = extension.slice(8)
 		let tree_length = 8
 		const trees = []
