@@ -2,11 +2,9 @@ export type TreeExtension = ReturnType<typeof parseTreeExtension>
 
 export const getExtensionData = (extension: number[]) => {
 	const signature = String.fromCharCode(...extension.slice(0, 4))
-
 	const return_data: { trees: TreeExtension[] } = { trees: [] }
 
 	if (signature === 'TREE') {
-		extension = extension.slice(8)
 		let tree_length = 8
 		const trees = []
 		while (extension.slice(tree_length).length !== 0) {
