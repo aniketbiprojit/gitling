@@ -5,7 +5,7 @@ import * as crypto from 'crypto'
 import assert from 'assert'
 import { logIndex } from './logIndex'
 import { getNumberFromBuffer } from './getNumberFromBuffer'
-import { getNextExtension } from './getNextExtension'
+import { getExtensionData } from './getNextExtension'
 
 export const parseIndex = (...absoluteFilepath: string[]) => {
 	const arrayBuffer = readFileSync(join(...absoluteFilepath)).toJSON().data
@@ -34,10 +34,10 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 	const leftOverEntries = arrayBuffer.slice(totalEnding)
 
 	let extension_data: number[] = []
-
+	let extension_entries: ReturnType<typeof getExtensionData> = { trees: [] }
 	if (leftOverEntries.length > 20) {
 		extension_data = arrayBuffer.slice(totalEnding, -20)
-		getNextExtension(extension_data)
+		extension_entries = getExtensionData(extension_data)
 		extension_exists = true
 	}
 	const file_sha_data = Buffer.from(leftOverEntries.slice(-20)).toString('hex')
@@ -58,5 +58,6 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 		file_sha_data,
 		extension_exists,
 		extension_data,
+		extension_entries,
 	}
 }
