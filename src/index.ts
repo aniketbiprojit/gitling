@@ -4,7 +4,7 @@ import { Repository } from './Repository'
 import { CLIException } from './utils/CLIException'
 import { createBlob } from './utils/createBlob'
 import { hashObject } from './utils/hashObject'
-import { parseIndex } from './utils/parseIndex'
+import { parseIndex } from './utils/parseIndex/parseIndex'
 
 const repo = new Repository()
 const args = process.argv.slice(2)

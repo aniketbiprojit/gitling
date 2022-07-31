@@ -1,4 +1,5 @@
-import { getNumberFromBuffer, getFlags } from './parseIndex'
+import { getNumberFromBuffer } from './getNumberFromBuffer'
+import { getFlags } from './getFlags'
 
 export const getNextIndexEntry = (entries: number[]) => {
 	const ctime = getNumberFromBuffer(entries.slice(0, 4))

@@ -3,6 +3,8 @@ import { join } from 'path'
 import { getNextIndexEntry } from './getNextIndexEntry'
 import * as crypto from 'crypto'
 import assert from 'assert'
+import { logIndex } from './logIndex'
+import { getNumberFromBuffer } from './getNumberFromBuffer'
 
 export const parseIndex = (...absoluteFilepath: string[]) => {
 	const arrayBuffer = readFileSync(join(...absoluteFilepath)).toJSON().data
@@ -18,12 +20,13 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 	const indexData = []
 	for (let index = 0; index < numberOfEntries; index++) {
 		const data = getNextIndexEntry(entries)
-		console.log(data.fileName)
 		endingAt = data.endingAt
 		totalEnding += endingAt
 		entries = entries.slice(endingAt)
 		indexData.push(data)
 	}
+
+	indexData.forEach((elem) => logIndex(elem))
 
 	let extension_exists = false
 
@@ -54,18 +57,4 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 		extension_exists,
 		extension_data,
 	}
-}
-
-export function getFlags(base: number) {
-	let baseEncoded = base.toString(2)
-	baseEncoded = new Array(16 - baseEncoded.length).fill(0).join('') + baseEncoded
-	const valid_flag = baseEncoded.slice(0, 1)
-	const extended_flag = baseEncoded.slice(1, 2)
-	const stage_flag = baseEncoded.slice(2, 4)
-	const file_name_length = Number('0b' + baseEncoded.slice(4))
-	return { base: baseEncoded, valid_flag, extended_flag, stage_flag, file_name_length }
-}
-
-export function getNumberFromBuffer(arrayBuffer: number[]) {
-	return Number('0x' + Buffer.from(arrayBuffer).toString('hex'))
 }
