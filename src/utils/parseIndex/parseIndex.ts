@@ -5,6 +5,7 @@ import * as crypto from 'crypto'
 import assert from 'assert'
 import { logIndex } from './logIndex'
 import { getNumberFromBuffer } from './getNumberFromBuffer'
+import { getNextExtension } from './getNextExtension'
 
 export const parseIndex = (...absoluteFilepath: string[]) => {
 	const arrayBuffer = readFileSync(join(...absoluteFilepath)).toJSON().data
@@ -16,7 +17,7 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 	const numberOfEntries = getNumberFromBuffer(arrayBuffer.slice(8, 12))
 	let entries = arrayBuffer.slice(12)
 	let endingAt = 0
-	let totalEnding = 0
+	let totalEnding = 12
 	const indexData = []
 	for (let index = 0; index < numberOfEntries; index++) {
 		const data = getNextIndexEntry(entries)
@@ -36,6 +37,7 @@ export const parseIndex = (...absoluteFilepath: string[]) => {
 
 	if (leftOverEntries.length > 20) {
 		extension_data = arrayBuffer.slice(totalEnding, -20)
+		getNextExtension(extension_data)
 		extension_exists = true
 	}
 	const file_sha_data = Buffer.from(leftOverEntries.slice(-20)).toString('hex')
