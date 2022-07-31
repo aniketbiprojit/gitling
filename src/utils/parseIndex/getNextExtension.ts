@@ -13,6 +13,10 @@ export const getExtensionData = (extension: number[]) => {
 			tree_length += tree.totalLength
 		}
 		return_data['trees'] = trees
+		console.log(signature)
+		trees.map((elem) => {
+			console.log(`${elem.sha} ${elem.pathName}`)
+		})
 	}
 	return return_data
 }

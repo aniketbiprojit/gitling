@@ -22,9 +22,8 @@ try {
 
 		case 'parse-index':
 			if (args.slice(1).length === 0) {
-				throw new CLIException('No index file provided', 'index')
-			}
-			parseIndex(...args.slice(1))
+				parseIndex('.git/index')
+			} else parseIndex(...args.slice(1))
 
 			break
 		default:
