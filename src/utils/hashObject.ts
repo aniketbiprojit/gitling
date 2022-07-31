@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 import { CLIException } from './CLIException'
-type ObjectType = 'blob'
+type ObjectType = 'blob' | 'tree'
 
 export const hashObject = ({ data, objectType }: { data: string; objectType: ObjectType }) => {
 	if (!data) {
