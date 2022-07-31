@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 import { Repository } from './Repository'
 import { CLIException } from './utils/CLIException'
@@ -21,6 +21,9 @@ try {
 			break
 
 		case 'parse-index':
+			if (args.slice(1).length === 0) {
+				throw new CLIException('No index file provided', 'index')
+			}
 			parseIndex(...args.slice(1))
 
 			break
