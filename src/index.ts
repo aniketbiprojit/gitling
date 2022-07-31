@@ -20,7 +20,7 @@ try {
 			createBlob(repo, ...args.slice(1))
 			break
 
-		case 'test':
+		case 'parse-index':
 			parseIndex(...args.slice(1))
 
 			break
