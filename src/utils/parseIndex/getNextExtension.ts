@@ -7,6 +7,7 @@ export const getExtensionData = (log = false, extension: number[]) => {
 	if (signature === 'TREE') {
 		let tree_length = 8
 		const trees = []
+
 		while (extension.slice(tree_length).length !== 0) {
 			const tree = parseTreeExtension(extension.slice(tree_length))
 			trees.push(tree)
@@ -37,7 +38,7 @@ function parseTreeExtension(extension: number[]) {
 		numberOfEntries: Number(stringNumberOfEntries),
 		numberOfSubtrees: Number(numberOfSubtreesString),
 		pathName,
-		totalLength: hashFrom + 20,
-		sha,
+		totalLength: stringNumberOfEntries === '-1' ? hashFrom : hashFrom + 20,
+		sha: stringNumberOfEntries === '-1' ? 'Invalid Entry or Tree in modified state' : sha,
 	}
 }
