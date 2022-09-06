@@ -1,9 +1,13 @@
 #!/usr/bin/env ts-node
 
+import { existsSync, statSync } from 'fs'
+import { basename } from 'path'
 import { Repository } from './Repository'
 import { CLIException } from './utils/CLIException'
 import { createBlob } from './utils/createBlob'
 import { hashObject } from './utils/hashObject'
+import { getStatus } from './utils/lsFiles/getStatus'
+import { IndexEntry } from './utils/parseIndex/IndexEntry'
 import { parseIndex } from './utils/parseIndex/parseIndex'
 
 const repo = new Repository()
@@ -17,15 +21,21 @@ try {
 			console.log(hashObject({ objectType: 'blob', data: args?.[1] }))
 			break
 		case 'create-blob':
-			createBlob(repo, ...args.slice(1))
+			const { sha } = createBlob(repo, ...args.slice(1))
+			updateIndex(repo, sha, ...args.slice(1))
+			break
+
+		case 'get-status':
+			getStatus(true, ...args.slice(1))
 			break
 
 		case 'parse-index':
 			if (args.slice(1).length === 0) {
-				parseIndex('.git/index')
-			} else parseIndex(...args.slice(1))
+				parseIndex(true, '.git/index')
+			} else parseIndex(true, ...args.slice(1), '.git/index')
 
 			break
+
 		default:
 			throw new CLIException('Not a command', 'index')
 	}
@@ -35,4 +45,55 @@ try {
 	} else {
 		console.error(err)
 	}
+}
+
+function updateIndex(repo: Repository, sha: string, ...filePath: string[]) {
+	const indexPath = repo.getFile('.git', 'index')
+	const completePath = repo.getFile(...filePath)
+
+	let indexData: ReturnType<typeof parseIndex> = {} as any
+	if (existsSync(indexPath)) {
+		indexData = parseIndex(false, indexPath)
+		console.log({ indexData: indexData.indexEntryData[1] })
+	} else {
+		indexData.signature = 'DIRC'
+		indexData.version = 2
+		indexData.numberOfEntries = 1
+
+		indexData.indexEntryData = []
+		indexData.extension_exists = false
+		indexData.extension_entries = { trees: [] }
+		indexData.fileSha = ''
+		indexData.file_sha_data = ''
+	}
+
+	const indexEntryData: IndexEntry = {} as any
+
+	const stats = statSync(indexPath)
+	indexEntryData.ctime = Math.floor(stats.ctimeMs / 1000)
+	indexEntryData.ctimeNano = ((stats.ctimeMs * 1000) % 1000000) * 1000
+
+	indexEntryData.mtime = Math.floor(stats.mtimeMs / 1000)
+	indexEntryData.mtimeNano = ((stats.mtimeMs * 1000) % 1000000) * 1000
+
+	indexEntryData.dev = stats.dev
+	indexEntryData.ino = stats.ino
+	indexEntryData.mode = stats.mode.toString(8)
+	indexEntryData.uid = stats.uid
+	indexEntryData.gid = stats.gid
+	indexEntryData.fileSize = stats.size
+
+	indexEntryData.sha = sha
+
+	indexEntryData.flags = {
+		base: '',
+		valid_flag: '',
+		extended_flag: '',
+		stage_flag: 0,
+		file_name_length: basename(completePath).length,
+	}
+
+	indexEntryData.fileName = basename(completePath)
+
+	return { repo, sha, args: filePath }
 }
