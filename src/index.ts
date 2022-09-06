@@ -6,6 +6,7 @@ import { Repository } from './Repository'
 import { CLIException } from './utils/CLIException'
 import { createBlob } from './utils/createBlob'
 import { hashObject } from './utils/hashObject'
+import { getStatus } from './utils/lsFiles/getStatus'
 import { IndexEntry } from './utils/parseIndex/IndexEntry'
 import { parseIndex } from './utils/parseIndex/parseIndex'
 
@@ -22,6 +23,10 @@ try {
 		case 'create-blob':
 			const { sha } = createBlob(repo, ...args.slice(1))
 			updateIndex(repo, sha, ...args.slice(1))
+			break
+
+		case 'get-status':
+			getStatus(true, ...args.slice(1))
 			break
 
 		case 'parse-index':

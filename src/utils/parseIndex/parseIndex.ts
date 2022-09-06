@@ -10,7 +10,6 @@ import { IndexEntry } from './IndexEntry'
 
 export const parseIndex = (log = false, ...absoluteFilepath: string[]) => {
 	const arrayBuffer = readFileSync(join(...absoluteFilepath)).toJSON().data
-	console.log(arrayBuffer.length)
 	const signature = String.fromCharCode(...arrayBuffer.slice(0, 4).map((elem) => Number(elem)))
 	const version = arrayBuffer
 		.slice(4, 8)

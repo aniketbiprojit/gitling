@@ -17,9 +17,11 @@ export const getExtensionData = (log = false, extension: number[]) => {
 		if (log) {
 			console.log(signature)
 			trees.map((elem) => {
-				console.log(`${elem.sha} ${elem.pathName}`)
+				console.log(`${elem.sha} ${elem.numberOfEntries} ${elem.numberOfSubtrees} ${elem.pathName}`)
 			})
 		}
+	} else {
+		console.log({ signature })
 	}
 	return return_data
 }
@@ -39,6 +41,6 @@ function parseTreeExtension(extension: number[]) {
 		numberOfSubtrees: Number(numberOfSubtreesString),
 		pathName,
 		totalLength: stringNumberOfEntries === '-1' ? hashFrom : hashFrom + 20,
-		sha: stringNumberOfEntries === '-1' ? 'Invalid Entry or Tree in modified state' : sha,
+		sha: stringNumberOfEntries === '-1' ? 'Invalid SHA' : sha,
 	}
 }
