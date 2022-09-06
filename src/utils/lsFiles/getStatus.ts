@@ -14,27 +14,39 @@ class TreeNode {
 
 	public pathName: string
 
-	public depth: number
+	public height: number
+
+	private _parentNode: TreeNode | undefined
+	public get parentNode(): TreeNode | undefined {
+		return this._parentNode
+	}
+	public set parentNode(value: TreeNode | undefined) {
+		this._parentNode = value
+	}
 
 	constructor({
 		sha,
 		children = [],
 		numberOfSubtrees = 0,
 		pathName,
-		depth = 0,
+		height = 0,
+		parentNode,
 	}: {
 		sha: string
 		children?: TreeNode[]
 		numberOfSubtrees?: number
 		pathName: string
-		depth: number
+		height: number
+		parentNode?: TreeNode
 	}) {
 		this.sha = sha
 		this.children = children
 		this.numberOfSubtrees = numberOfSubtrees
 		this.pathName = pathName
 
-		this.depth = depth
+		this.height = height
+
+		this.parentNode = parentNode
 	}
 
 	updateChildren(node: TreeNode) {
@@ -60,7 +72,7 @@ const constructTree = (log = false, ...absoluteFilepath: string[]) => {
 		// construct tree from index after a dir walk
 		return new Tree(
 			new TreeNode({
-				depth: 0,
+				height: 0,
 				sha: '',
 				pathName: '',
 			})
@@ -80,36 +92,44 @@ const constructNode = (
 		pathName: string
 		totalLength: number
 		sha: string
-	}[]
+	}[],
+	parentNode?: TreeNode
 ): TreeNode => {
 	const node = nodes[index]
 	if (node.numberOfSubtrees > 0) {
-		const children = []
+		const children: TreeNode[] = []
 		let nextIndex = index + 1
-		for (let i = 0; i < node.numberOfSubtrees; i++) {
-			const childNode = constructNode(nextIndex, nodes)
-			nextIndex += childNode.depth
-			children.push(childNode)
-		}
-		return new TreeNode({
-			depth: children.reduce((a, b) => a + b.depth, 1),
+
+		const currentNode = new TreeNode({
+			height: children.reduce((a, b) => a + b.height, 1),
 			pathName: node.pathName,
 			sha: node.sha,
 			children,
 			numberOfSubtrees: node.numberOfSubtrees,
 		})
+
+		for (let i = 0; i < node.numberOfSubtrees; i++) {
+			const childNode = constructNode(nextIndex, nodes, currentNode)
+			nextIndex += childNode.height
+			children.push(childNode)
+		}
+
+		currentNode.height = children.reduce((a, b) => a + b.height, 1)
+		currentNode.children = children
+		currentNode.parentNode = parentNode
+		return currentNode
 	}
-	return new TreeNode({ sha: node.sha, pathName: node.pathName, depth: 1 })
+	return new TreeNode({ sha: node.sha, pathName: node.pathName, height: 1, parentNode })
 }
 
 const logTree = (node: TreeNode | Tree, space = '') => {
 	if (node instanceof Tree) {
 		node = node.root
 	}
-	console.log(space, node.pathName || '.', node.depth)
+	console.log(space, (node.pathName || '.') + `(${(node.parentNode?.height ?? 0) - node.height})`)
 
 	if (node.children.length > 0) {
-		space += ' '
+		space += '  '
 		for (let index = 0; index < node.children.length; index++) {
 			const child = node.children[index]
 			logTree(child, space)
