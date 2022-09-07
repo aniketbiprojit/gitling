@@ -3,3 +3,4 @@ src
 data
 prepublish.sh
 tsconfig.json
+bin

@@ -1,18 +1,22 @@
 {
 	"name": "gitling",
-	"version": "0.0.1-alpha.0",
+	"version": "0.0.4-beta.7",
 	"description": "",
-	"main": "index.js",
+	"main": "build/src/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package": "pkg . --targets node16-macos-arm64 --output bin/gitling"
+		"package": "pkg . --targets node16-macos-arm64 --output bin/gitling",
+		"prepublishOnly": "./prepublish.sh"
 	},
 	"license": "AGPL-3.0-or-later",
+	"dependencies": {
+		"ini": "^3.0.0"
+	},
 	"devDependencies": {
 		"@types/ini": "^1.3.31",
 		"@types/node": "^18.6.2",
-		"ini": "^3.0.0",
 		"minify": "^9.1.0",
+		"pkg": "^5.8.0",
 		"typescript": "^4.7.4"
 	},
 	"keywords": [
@@ -25,10 +29,7 @@
 		"name": "Aniket Biprojit Chowdhury",
 		"email": "aniket_chowdhury@hotmail.com"
 	},
-	"pkg": {
-		"scripts": "build/**/*.js"
-	},
 	"bin": {
-		"gitling": "./build/index.js"
+		"gitling": "./build/src/index.js"
 	}
 }

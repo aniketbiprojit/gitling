@@ -5,9 +5,9 @@ import { join } from 'path'
 export class Repository {
 	private _baseDir!: string
 
-	private readonly email = 'aniket_chowdhury@hotmail.com'
+	private readonly email = ''
 
-	private readonly name = 'Aniket Biprojit Chowdhury'
+	private readonly name = ''
 
 	constructor() {
 		this._baseDir = join(__dirname, '..')
@@ -27,7 +27,7 @@ export class Repository {
 	}
 
 	public get gitLingDir(): string {
-		return join(this._baseDir, '.gitLing')
+		return join(this._baseDir, '.git')
 	}
 
 	public getFile(...filepath: string[]): string {
