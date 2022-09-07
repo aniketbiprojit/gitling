@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 import { existsSync, statSync } from 'fs'
 import { basename } from 'path'
