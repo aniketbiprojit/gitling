@@ -7,7 +7,7 @@ export const getStatus = (log = false, ...absoluteFilepath: string[]) => {
 	}
 }
 
-class TreeNode {
+export class TreeNode {
 	children: TreeNode[]
 	public numberOfSubtrees: number = 0
 	public sha: string
@@ -54,7 +54,7 @@ class TreeNode {
 	}
 }
 
-class Tree {
+export class Tree {
 	public root: TreeNode
 
 	constructor(root: TreeNode) {
@@ -130,6 +130,7 @@ const logTree = (node: TreeNode | Tree, space = '') => {
 
 	if (node.children.length > 0) {
 		space += '  '
+
 		for (let index = 0; index < node.children.length; index++) {
 			const child = node.children[index]
 			logTree(child, space)
