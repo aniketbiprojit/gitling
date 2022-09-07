@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@types/ini": "^1.3.31",
 		"@types/node": "^18.6.2",
+		"gitling": "0.0.2-beta.0",
 		"ini": "^3.0.0",
 		"minify": "^9.1.0",
 		"pkg": "^5.8.0",
