@@ -130,6 +130,7 @@ const logTree = (node: TreeNode | Tree, space = '') => {
 
 	if (node.children.length > 0) {
 		space += '  '
+
 		for (let index = 0; index < node.children.length; index++) {
 			const child = node.children[index]
 			logTree(child, space)
