@@ -9,6 +9,7 @@ import { hashObject } from './utils/hashObject'
 import { getStatus } from './utils/lsFiles/getStatus'
 import { IndexEntry } from './utils/parseIndex/IndexEntry'
 import { parseIndex } from './utils/parseIndex/parseIndex'
+import { version } from '../package.json'
 
 export { hashObject, parseIndex, updateIndex, getStatus, createBlob, CLIException, IndexEntry }
 
@@ -16,6 +17,9 @@ const repo = new Repository()
 const args = process.argv.slice(2)
 try {
 	switch (args?.[0]) {
+		case '--version':
+			console.log(`GitLing version: v${version}`)
+			break
 		case 'init':
 			repo.init()
 			break
