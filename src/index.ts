@@ -51,6 +51,7 @@ try {
 	} else {
 		console.error(err)
 	}
+	process.exit(1)
 }
 
 function updateIndex(repo: Repository, sha: string, ...filePath: string[]) {

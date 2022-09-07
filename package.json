@@ -2,7 +2,7 @@
 	"name": "gitling",
 	"version": "0.0.4-beta.6",
 	"description": "",
-	"main": "build/index.js",
+	"main": "build/src/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"package": "pkg . --targets node16-macos-arm64 --output bin/gitling",
@@ -30,6 +30,6 @@
 		"email": "aniket_chowdhury@hotmail.com"
 	},
 	"bin": {
-		"gitling": "./build/index.js"
+		"gitling": "./build/src/index.js"
 	}
 }
