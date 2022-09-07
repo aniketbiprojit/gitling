@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package": "pkg . --targets node16-macos-arm64 --output bin/gitling"
+		"package": "pkg . --targets node16-macos-arm64 --output bin/gitling",
+		"prepublishOnly": "./prepublish.sh"
 	},
 	"license": "AGPL-3.0-or-later",
 	"devDependencies": {
@@ -25,9 +26,6 @@
 	"author": {
 		"name": "Aniket Biprojit Chowdhury",
 		"email": "aniket_chowdhury@hotmail.com"
-	},
-	"pkg": {
-		"scripts": "build/**/*.js"
 	},
 	"bin": {
 		"gitling": "./build/index.js"

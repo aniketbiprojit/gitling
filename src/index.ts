@@ -15,7 +15,6 @@ export { hashObject, parseIndex, updateIndex, getStatus, createBlob, CLIExceptio
 const repo = new Repository()
 const args = process.argv.slice(2)
 try {
-	console.log(args)
 	switch (args?.[0]) {
 		case 'init':
 			repo.init()
