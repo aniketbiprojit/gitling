@@ -7,7 +7,7 @@ export const getStatus = (log = false, ...absoluteFilepath: string[]) => {
 	}
 }
 
-class TreeNode {
+export class TreeNode {
 	children: TreeNode[]
 	public numberOfSubtrees: number = 0
 	public sha: string
@@ -54,7 +54,7 @@ class TreeNode {
 	}
 }
 
-class Tree {
+export class Tree {
 	public root: TreeNode
 
 	constructor(root: TreeNode) {

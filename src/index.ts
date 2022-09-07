@@ -10,9 +10,12 @@ import { getStatus } from './utils/lsFiles/getStatus'
 import { IndexEntry } from './utils/parseIndex/IndexEntry'
 import { parseIndex } from './utils/parseIndex/parseIndex'
 
+export { hashObject, parseIndex, updateIndex, getStatus, createBlob, CLIException, IndexEntry }
+
 const repo = new Repository()
 const args = process.argv.slice(2)
 try {
+	console.log(args)
 	switch (args?.[0]) {
 		case 'init':
 			repo.init()
