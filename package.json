@@ -29,6 +29,10 @@
 		"name": "Aniket Biprojit Chowdhury",
 		"email": "aniket_chowdhury@hotmail.com"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aniketbiprojit/gitling.git"
+	},
 	"bin": {
 		"gitling": "./build/src/index.js"
 	}
